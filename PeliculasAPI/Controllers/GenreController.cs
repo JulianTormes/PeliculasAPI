@@ -26,7 +26,7 @@ namespace PeliculasAPI.Controllers
             var dtos = _mapper.Map<List<GenreDTO>>(entities);
             return dtos;
         }
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "obtainGenre")]
         public async Task<ActionResult<GenreDTO>> Get(int id)
         {
             var entity = await _context.Genres.FirstOrDefaultAsync(x => x.Id == id);
@@ -44,8 +44,8 @@ namespace PeliculasAPI.Controllers
             var entity = _mapper.Map<Genre>(genreCreatrionDTO);
             _context.Add(entity);
             await _context.SaveChangesAsync();
-            var generoDTO = _mapper.Map<GenreDTO>(entity);
-            return new CreatedAtRouteResult("obtainGenre", new { id = generoDTO.Id }, generoDTO);
+            var genreDTO = _mapper.Map<GenreDTO>(entity);
+            return new CreatedAtRouteResult("obtainGenre", new { id = genreDTO.Id }, genreDTO);
         }
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody]GenreCreatrionDTO genreCreatrionDTO)
