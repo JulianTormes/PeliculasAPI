@@ -36,7 +36,7 @@ namespace PeliculasAPI.Controllers
             return _mapper.Map<ActorDTO>(entity);
         }
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ActorCreationDTO actorCreationDTO)
+        public async Task<ActionResult> Post([FromForm] ActorCreationDTO actorCreationDTO)
         { 
             var entity = _mapper.Map<Actor>(actorCreationDTO);
             _context.Add(entity);
@@ -45,7 +45,7 @@ namespace PeliculasAPI.Controllers
             return new CreatedAtRouteResult("obtainActors", new { id = entity.Id }, dto);
         }
         [HttpPut]
-        public async Task<ActionResult> put(int id, [FromBody] ActorCreationDTO actorCreationDTO)
+        public async Task<ActionResult> put(int id, [FromForm] ActorCreationDTO actorCreationDTO)
         {
             var entity = _mapper.Map<Actor>(actorCreationDTO);
             entity.Id = id;
