@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using PeliculasAPI.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace PeliculasAPI.DTOs
 {
@@ -8,6 +10,8 @@ namespace PeliculasAPI.DTOs
         [StringLength(40)]
         public string name { get; set; }
         public DateTime BirthDate { get; set; }
+        [WeigthArchiveValidation(MaxWeigthInMB: 4)]
+        [ArchiveTypeValidation(groupTypeArchive: GroupTypeArchive.Image)]
         public IFormFile Photo { get; set; }
     }
 }
