@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using PeliculasAPI.Servicies;
+using PeliculasAPI.Servicios;
 
 namespace PeliculasAPI
 {
@@ -16,9 +18,11 @@ namespace PeliculasAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<IFileStorage, LocalFileStorage>();
+            services.AddHttpContextAccessor();
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 ;        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,6 +34,8 @@ namespace PeliculasAPI
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 

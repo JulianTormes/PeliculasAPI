@@ -12,8 +12,8 @@ using PeliculasAPI;
 namespace PeliculasAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230125190509_ActorsEnglish")]
-    partial class ActorsEnglish
+    [Migration("20230126181036_ActorsID")]
+    partial class ActorsID
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

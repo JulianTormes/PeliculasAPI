@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PeliculasAPI.DTOs
 {
-    public class ActorCreationDTO
+    public class ActorCreationDTO 
     {
         [Required]
         [StringLength(40)]
