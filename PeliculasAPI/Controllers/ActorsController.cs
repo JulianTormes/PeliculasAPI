@@ -54,7 +54,6 @@ namespace PeliculasAPI.Controllers
                     var content = memoryStream.ToArray();
                     var extension = Path.GetExtension(actorCreationDTO.Photo.FileName);
                     entity.photo = await _fileStorage.SaveArchive(content, extension, container, actorCreationDTO.Photo.ContentType);
-                    //entity.photo = await IFileStorage.SaveArchive(content, extension, container, actorCreationDTO.Photo.ContentType);
                 }
             }
 
