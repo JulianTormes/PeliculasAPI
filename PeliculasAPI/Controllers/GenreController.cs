@@ -39,7 +39,7 @@ namespace PeliculasAPI.Controllers
             return dto;
         }
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] GenreCreatrionDTO genreCreatrionDTO)
+        public async Task<ActionResult> Post([FromBody] GenreCreationDTO genreCreatrionDTO)
         {
             var entity = _mapper.Map<Genre>(genreCreatrionDTO);
             _context.Add(entity);
@@ -48,7 +48,7 @@ namespace PeliculasAPI.Controllers
             return new CreatedAtRouteResult("obtainGenre", new { id = genreDTO.Id }, genreDTO);
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody]GenreCreatrionDTO genreCreatrionDTO)
+        public async Task<ActionResult> Put(int id, [FromBody]GenreCreationDTO genreCreatrionDTO)
         {
             var entity = _mapper.Map<Genre>(genreCreatrionDTO);
             entity.Id = id;

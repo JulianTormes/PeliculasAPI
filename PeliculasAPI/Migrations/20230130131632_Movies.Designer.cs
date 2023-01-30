@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PeliculasAPI;
 
@@ -11,9 +12,10 @@ using PeliculasAPI;
 namespace PeliculasAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230130131632_Movies")]
+    partial class Movies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,6 +74,9 @@ namespace PeliculasAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("FechaEstreno")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Poster")
                         .HasColumnType("nvarchar(max)");
 
@@ -82,9 +87,6 @@ namespace PeliculasAPI.Migrations
 
                     b.Property<bool>("onCinema")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("premiereDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

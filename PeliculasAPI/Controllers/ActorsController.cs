@@ -68,9 +68,24 @@ namespace PeliculasAPI.Controllers
         [HttpPut]
         public async Task<ActionResult> Put(int id, [FromForm] ActorCreationDTO actorCreationDTO)
         {
-            var entity = _mapper.Map<Actor>(actorCreationDTO);
-            entity.Id = id;
-            _context.Entry(entity).State= EntityState.Modified;
+            var actorDB = await _context.Actors.FirstOrDefaultAsync(x => x.Id == id);
+            if (actorDB == null)
+            { 
+            return NotFound();
+            }
+            actorDB = _mapper.Map(actorCreationDTO, actorDB);
+            if (actorCreationDTO.Photo != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                { 
+                    await actorCreationDTO.Photo.CopyToAsync (memoryStream);
+                    var content = memoryStream.ToArray();
+                    var extension = Path.GetExtension(actorCreationDTO.Photo.FileName);
+                    actorDB.photo = await _fileStorage.EditArchive(content, extension, container,
+                        actorDB.photo,
+                        actorCreationDTO.Photo.ContentType);
+                }
+            }
             await _context.SaveChangesAsync();
             return NoContent();
         }
