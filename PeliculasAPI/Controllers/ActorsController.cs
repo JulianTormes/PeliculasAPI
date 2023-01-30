@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeliculasAPI.DTOs;
 using PeliculasAPI.Entities;
+using PeliculasAPI.Helpers;
 using PeliculasAPI.Servicies;
 using PeliculasAPI.Servicios;
 
@@ -26,9 +27,11 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ActorDTO>>> Get()
+        public async Task<ActionResult<List<ActorDTO>>> Get([FromQuery]PaginationDTO paginationDTO)
         {
-            var entities = await _context.Actors.ToListAsync();
+            var queryable = _context.Actors.AsQueryable();
+            await HttpContext.InsertParametersPagiantion(queryable, paginationDTO.AmountRegistersPerPage);
+            var entities = await queryable.Pageing(paginationDTO).ToListAsync();
             return _mapper.Map<List<ActorDTO>>(entities);
         }
         [HttpGet("{id}", Name = "obtainActors")]
@@ -63,7 +66,7 @@ namespace PeliculasAPI.Controllers
             return new CreatedAtRouteResult("obtainActors", new { id = entity.Id }, dto);
         }
         [HttpPut]
-        public async Task<ActionResult> put(int id, [FromForm] ActorCreationDTO actorCreationDTO)
+        public async Task<ActionResult> Put(int id, [FromForm] ActorCreationDTO actorCreationDTO)
         {
             var entity = _mapper.Map<Actor>(actorCreationDTO);
             entity.Id = id;
